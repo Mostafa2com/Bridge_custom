@@ -1,0 +1,120 @@
+<odoo>
+    <data>
+        <record id="view_company_form" model="ir.ui.view">
+            <field name="name">res.company</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="license" required="1"/>
+                    <field name="license_no" required="1"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="country_id_name" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='street2']" position="after">
+                    <field name="building_no" placeholder="Building Number" class="o_address_city"
+                           style="width: 41%;"
+                           attrs="{'required': [('country_id_name', '=', 'Saudi Arabia')],
+                                   'invisible': [('country_id_name', '!=', 'Saudi Arabia')]}"/>
+                    <field name="additional_no" placeholder="Additional Number" style="width: 57%;"
+                           attrs="{'required': [('country_id_name', '=', 'Saudi Arabia')],
+                                   'invisible': [('country_id_name', '!=', 'Saudi Arabia')]}"/>
+                    <field name="district" placeholder="District" class="o_address_street"
+                           attrs="{'required': [('country_id_name', '=', 'Saudi Arabia')],
+                                   'invisible': [('country_id_name', '!=', 'Saudi Arabia')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='street']" position="attributes">
+                    <attribute name="attrs">{'required': [('country_id_name', '=', 'Saudi Arabia')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='city']" position="attributes">
+                    <attribute name="attrs">{'required': [('country_id_name', '=', 'Saudi Arabia')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='zip']" position="attributes">
+                    <attribute name="attrs">{'required': [('country_id_name', '=', 'Saudi Arabia')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='country_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='state_id']" position="attributes">
+                    <attribute name="attrs">{'required': [('country_id_name', '=', 'Saudi Arabia')]}</attribute>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page id="zatca_configurations" string="Zatca Configurations">
+                        <div class="app_settings_block" data-string="ZATCA" string="ZATCA"
+                             data-key="ZATCA">
+                            <h2>ZATCA</h2>
+                            <group>
+                                <field name="is_zatca"/>
+                            </group>
+                            <div class="row mt16 o_settings_container" attrs="{'invisible':[('is_zatca','!=', True)]}">
+                                <div class="col-12 col-lg-12 o_setting_box">
+                                    <field name="zatca_onboarding_status" invisible="1"/>
+                                    <div>
+                                        <h6>User documentation</h6>
+                                        <p>
+                                            <a href="https://zatca.gov.sa/en/E-Invoicing/Introduction/Guidelines/Documents/Fatoora%20portal%20user%20manual.pdf">
+                                                Onboarding the EGS and generating CSID
+                                            </a>
+                                            <a href="https://zatca.gov.sa/en/E-Invoicing/Introduction/FAQ/Pages/default.aspx">
+                                                FAQ's
+                                            </a>
+        <!--                                    <a href="https://zatca.gov.sa/en/E-Invoicing/Introduction/Guidelines/Documents/E-Invoicing_Detailed__Guideline.pdf">-->
+        <!--                                        Examples-->
+        <!--                                    </a>-->
+                                        </p>
+                                    </div>
+                                    <group>
+                                        <group>
+                                            <field name="zatca_pih" readonly="1" invisible="1"/>
+                                            <field name="zatca_icv_counter" readonly="1" invisible="1"/>
+                                            <field name="zatca_onboarding_status" readonly="1" invisible="1"/>
+                                            <field name="zatca_on_board_status_details" readonly="1" invisible="1"/>
+
+                                            <field name="csr_common_name" attrs="{'required':[('is_zatca','=', True)]}"/>
+                                            <field name="csr_serial_number" attrs="{'required':[('is_zatca','=', True)]}"/>
+<!--                                            <field name="csr_organization_identifier"/>-->
+                                            <field name="csr_organization_unit_name" attrs="{'required':[('is_zatca','=', True)]}"/>
+                                            <field name="csr_organization_name" attrs="{'required':[('is_zatca','=', True)]}"/>
+                                        </group>
+                                        <group>
+<!--                                            <field name="csr_country_name"/>-->
+                                            <field name="csr_invoice_type" attrs="{'required':[('is_zatca','=', True)]}"/>
+                                            <field name="csr_location_address" attrs="{'required':[('is_zatca','=', True)]}"/>
+                                            <field name="csr_industry_business_category" attrs="{'required':[('is_zatca','=', True)]}"/>
+                                            <field name="csr_otp" force_save="1"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="zatca_link" attrs="{'required':[('is_zatca','=', True)]}"/>
+                                        <field name="csr_certificate" required="0" force_save="1"/>
+                                        <field name="zatca_status" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="zatca_is_sandbox"/>
+                                        <field name="zatca_private_key"
+                                               attrs="{'required':[('zatca_is_sandbox','=', True)], 'invisible':[('zatca_is_sandbox','!=', True)]}"/>
+                                    </group>
+                                    <group col="4" colspan="2" style="display:flex;">
+                                        <button name="generate_zatca_certificate"
+                                                string="Generate Certificate &amp; Sandbox Credentials" type="object"
+                                                class="btn-primary width_height_100" style="width: 100%;height: 100%;"/>
+                                        <button name="register_certificate" string="Register Certificate" type="object"
+                                                class="btn-primary width_height_100" style="width: 100%;height: 100%;"/>
+
+                                        <button name="production_credentials" string="Get Production Credentials" type="object"
+                                                class="btn-primary width_height_100" style="width: 100%;height: 100%;"
+                                                attrs="{'invisible':[('zatca_onboarding_status','!=', True)]}"/>
+                                        <button name="production_credentials_renew" string="Renew Production Credentials"
+                                                type="object" class="btn-primary width_height_100" style="width: 100%;height: 100%;"
+                                                attrs="{'invisible':[('zatca_onboarding_status','!=', True)]}"/>
+                                    </group>
+                                </div>
+                            </div>
+                        </div>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,7 @@
+<record id="my_button_id" model="ir.ui.view">
+  <field name="name">My Button View</field>
+  <field name="model">sale.order</field>
+  <field name="arch" type="xml">
+    <button name="open_url" string="Open URL" type="object" class="btn-primary"/>
+  </field>
+</record>

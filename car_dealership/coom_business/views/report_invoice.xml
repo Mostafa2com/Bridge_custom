@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_invoice_lot" inherit_id="l10n_gcc_invoice.arabic_english_invoice">
+        <xpath expr="//t[@name='account_invoice_line_accountable']/td[7]" position="after">
+            <td class="text-end">
+                <span t-field="line.lot_id"/>
+            </td>
+        </xpath>
+        <xpath expr="//th[@name='th_quantity']" position="after">
+            <th name="th_lot_id" class="text-end">
+                <span>
+                    رقم الهيكل
+                </span>
+                <br/>
+                <span>
+                    Serial
+                </span>
+            </th>
+        </xpath>
+    </template>
+
+</odoo>

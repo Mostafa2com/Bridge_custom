@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="stock_lot_form_inherit" model="ir.ui.view">
+            <field name="name">coom.stock_lot.form</field>
+            <field name="model">stock.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ref']" position="before">
+                    <field name="reserved_by"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+    <data>
+        <record id="stock_lot_tree_inherit" model="ir.ui.view">
+            <field name="name">coom.stock_lot.tree</field>
+            <field name="model">stock.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ref']" position="before">
+                    <field name="reserved_by" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
